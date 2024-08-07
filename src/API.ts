@@ -1,4 +1,4 @@
-
+import { shuffleArray } from "./utils";
 
 export type Question = {
     category : string;
@@ -22,6 +22,13 @@ export enum Difficulty {
 export const fetchQuestions = async (amount: number, difficulty: Difficulty) => {
     const endpoint = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
     const data = await (await fetch(endpoint)).json();
-    console.log(data, "==> data");
+    console.log(data.results);
+    
+    return data?.results?.map((questions: Question) => (
+        {
+            ...questions,
+            answers: shuffleArray([...questions.incorrect_answers, questions.correct_answer])
+        }
+    ))
     
 }
