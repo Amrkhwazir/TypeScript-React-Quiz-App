@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import QuestionCard from "./components/QuestionCard";
 import { fetchQuestions } from "./API";
 import {QuestionState ,Difficulty } from "./API";
-import { loadavg } from "os";
+
+// styles
+
+import { GlobalStyle, Wrapper } from "./App.styles";
 
 
-type AnswerObject = {
+export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
@@ -69,14 +72,16 @@ const nextQuestion = () => {
 };
 
   return (
-    <div className="App">
+    <>
+    <GlobalStyle />
+    <Wrapper>
       <h1>REACT QUIZ APP</h1>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
       <button className="start" onClick={startQuiz}>
         Start Quiz
       </button>
       ) : null}
-     {!gameOver ? <p className="score">score:</p> : null}
+     {!gameOver ? <p className="score">score: {score}</p> : null}
       {Loading && <p>Loading Questions ...</p>}
       {!Loading && !gameOver && (
         <QuestionCard
@@ -89,7 +94,8 @@ const nextQuestion = () => {
         />
       )}
       {!gameOver && !Loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1  ? (  <button className="next" onClick={nextQuestion}>Next Question</button>) : null}
-    </div>
+    </Wrapper>
+    </>
   );
 }
 
